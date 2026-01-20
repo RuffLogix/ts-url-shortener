@@ -48,3 +48,9 @@ The server will start on `http://localhost:3000`.
 - **Port**: The server runs on port 3000 by default (configurable in `src/server.ts`)
 - **Expiration**: URLs expire after 60 seconds (configurable via `WINDOW_SECONDS` in `src/server.ts`)
 - **Redis**: Connects to local Redis on default port 6379
+
+## Development
+
+- **TypeScript**: Compile and run with `npx tsc`
+- **Linting**: No linter configured yet
+- **Testing**: No tests implemented yet
