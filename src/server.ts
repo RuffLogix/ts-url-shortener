@@ -36,15 +36,21 @@ async function main() {
 
   app.get("/:shortUrl", async (req: Request, res: Response) => {
     const { shortUrl } = req.params;
-    const value = await redis.HGET("urlMap", shortUrl as string);
+    const url = await redis.HGET("urlMap", shortUrl as string);
 
-    if (!value) {
+    if (!url) {
       return res.status(404).json({
         error: "URL Not Found",
       });
     }
 
-    res.status(200).redirect(value);
+    const counter = await redis.incr(`counter:${shortUrl}`);
+
+    if (counter == 1) {
+      await redis.expire(`counter:${shortUrl}`, WINDOW_SECONDS);
+    }
+
+    res.status(200).redirect(url);
   });
 
   app.listen(PORT, () => {
