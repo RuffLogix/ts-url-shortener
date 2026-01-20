@@ -2,13 +2,13 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import { connectRedis, redis } from "./redis.js";
 import { generateRandomURL } from "./utils.js";
-
-const PORT = 3000;
-const WINDOW_SECONDS = 60;
+import { PORT, WINDOW_SECONDS } from "./constant.js";
+import { rateLimiter } from "./rateLimiter.js";
 
 async function main() {
   const app = express();
 
+  app.use(rateLimiter);
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
 
