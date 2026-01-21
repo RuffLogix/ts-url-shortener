@@ -2,8 +2,11 @@ import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import { connectRedis, redis } from "./redis.js";
 import { generateRandomURL } from "./utils.js";
-import { PORT, WINDOW_SECONDS } from "./constant.js";
+import { WINDOW_SECONDS } from "./constant.js";
 import { rateLimiter } from "./rateLimiter.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 async function main() {
   const app = express();
@@ -53,8 +56,8 @@ async function main() {
     res.status(200).redirect(url);
   });
 
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+  app.listen(process.env.PORT, () => {
+    console.log(`Server running on http://localhost:${process.env.PORT}`);
   });
 }
 
